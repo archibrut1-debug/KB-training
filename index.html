@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StrongHybrid 4.1 — Sessions</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: #f4f4f0; color: #1a1a1a; padding: 16px; }
+  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; color: #1A1A2E; }
+  .subtitle { font-size: 12px; color: #777; margin-bottom: 16px; }
+
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .tag { padding: 6px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; border: 1px solid #ccc; background: #fff; color: #555; transition: all 0.15s; user-select: none; }
+  .tag.active { background: #1A1A2E; color: #fff; border-color: #1A1A2E; }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; min-width: 680px; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  th { padding: 10px 12px; font-size: 11px; font-weight: 600; color: #fff; background: #2D3561; text-align: left; border-bottom: 1px solid #1A1A2E; }
+  td { padding: 12px 12px; font-size: 13px; vertical-align: top; border-bottom: 1px solid #eee; line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+  tr.hidden { display: none; }
+
+  .sid  { font-weight: 700; font-size: 13px; }
+  .sname{ font-weight: 600; font-size: 12px; color: #444; margin-top: 2px; }
+  .sfmt { font-size: 12px; color: #555; line-height: 1.6; }
+  .sdur { font-size: 12px; color: #999; white-space: nowrap; }
+  .exo  { font-size: 12px; line-height: 1.8; color: #333; }
+
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 2px 2px 2px 0; }
+  .b-testo2 { background: #FAC775; color: #412402; }
+  .b-testo1 { background: #FAEEDA; color: #633806; }
+  .b-gh2    { background: #85B7EB; color: #042C53; }
+  .b-gh1    { background: #E6F1FB; color: #0C447C; }
+  .b-graisse{ background: #C0DD97; color: #173404; }
+  .b-masse  { background: #CECBF6; color: #26215C; }
+  .b-libido { background: #F4C0D1; color: #4B1528; }
+  .b-posture{ background: #9FE1CB; color: #04342C; }
+  .b-tennis { background: #F5C4B3; color: #4A1B0C; }
+  .b-force  { background: #D3D1C7; color: #2C2C2A; }
+
+  .bg-blue   { background: #EBF4FF; }
+  .bg-purple { background: #F0EEFF; }
+  .bg-teal   { background: #E8F8F2; }
+  .bg-gray   { background: #F7F5EE; }
+
+  .note { margin-top: 14px; padding: 10px 14px; background: #fffdf3; border-left: 3px solid #e6c84a; border-radius: 0 6px 6px 0; font-size: 11px; color: #7a5c00; line-height: 1.7; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #666; }
+  .leg-dot  { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; border: 1px solid #ccc; }
+
+  .just-row td { background: #F7F5EE; }
+  .just-title  { font-weight: 600; font-size: 12px; color: #444; }
+</style>
+</head>
+<body>
+
+<h1>StrongHybrid 4.1 — Sessions</h1>
+<p class="subtitle">Filtre par objectif pour choisir ta session du jour</p>
+
+<div class="filter-bar" id="filters">
+  <span class="tag active" data-filter="all">Toutes</span>
+  <span class="tag" data-filter="graisse">Graisse ventre</span>
+  <span class="tag" data-filter="masse">Masse / densité</span>
+  <span class="tag" data-filter="testo">Testo</span>
+  <span class="tag" data-filter="gh">GH</span>
+  <span class="tag" data-filter="libido">Libido / stamina</span>
+  <span class="tag" data-filter="tennis">Tennis / explosivité</span>
+  <span class="tag" data-filter="force">Force</span>
+  <span class="tag" data-filter="posture">Posture</span>
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th style="width:10%">ID</th>
+      <th style="width:13%">Nom</th>
+      <th style="width:15%">Format</th>
+      <th style="width:7%">Durée</th>
+      <th style="width:24%">Exercices</th>
+      <th style="width:31%">Objectifs ciblés</th>
+    </tr>
+  </thead>
+  <tbody id="tbody">
+
+    <tr data-tags="graisse gh testo tennis" class="bg-blue">
+      <td><div class="sid">S1</div><div class="sname">Quick &amp; Dead</div></td>
+      <td><span class="sfmt">30s ON / 30s OFF<br>10 tours</span></td>
+      <td><span class="sfmt">Swings + pompes<br>en alternance</span></td>
+      <td class="sdur">~10 min</td>
+      <td class="exo">• 7–8 swings double KB (36 kg)<br>• 5 pompes — élastiques ou explosives</td>
+      <td>
+        <span class="badge b-graisse">Graisse ventre</span>
+        <span class="badge b-gh2">GH ↑↑</span>
+        <span class="badge b-testo1">Testo ↑</span>
+        <span class="badge b-tennis">Cardio / VO₂</span>
+        <span class="badge b-posture">Core profond</span>
+      </td>
+    </tr>
+
+    <tr data-tags="testo masse force posture graisse" class="bg-purple">
+      <td><div class="sid">S2</div><div class="sname">Force 5×5+</div></td>
+      <td><span class="sfmt">5 tours × 5 reps<br>Repos 90–120 s</span></td>
+      <td><span class="sfmt">Clean &amp; Press<br>+ DFS + Pompes</span></td>
+      <td class="sdur">~20 min</td>
+      <td class="exo">• Clean &amp; Press 20 kg / bras (alt. G/D)<br>• Double Front Squat (36 kg)<br>• Pompes élastiques</td>
+      <td>
+        <span class="badge b-testo2">Testo ↑↑</span>
+        <span class="badge b-gh1">GH ↑</span>
+        <span class="badge b-masse">Masse dense</span>
+        <span class="badge b-force">Force fondamentale</span>
+        <span class="badge b-posture">Lordose ↓</span>
+        <span class="badge b-graisse">Combustion adipeuse</span>
+      </td>
+    </tr>
+
+    <tr data-tags="graisse gh testo posture tennis" class="bg-teal">
+      <td><div class="sid">S3a</div><div class="sname">Quick &amp; Fun</div></td>
+      <td><span class="sfmt">5 tours × 2 min<br>30s ON / 30s OFF</span></td>
+      <td><span class="sfmt">Snatch + Farmer Walk<br>asymétrique</span></td>
+      <td class="sdur">~10 min</td>
+      <td class="exo">• 30s Snatch 16 kg / 30s OFF<br>• 30s Farmer Walk asymétrique<br>&nbsp;&nbsp;(20 kg rack + 16 kg bas) / 30s OFF</td>
+      <td>
+        <span class="badge b-gh2">GH ↑↑</span>
+        <span class="badge b-graisse">Graisse ventre</span>
+        <span class="badge b-tennis">Tennis / explosivité</span>
+        <span class="badge b-posture">Posture / équilibre</span>
+        <span class="badge b-testo1">Testo ↑</span>
+      </td>
+    </tr>
+
+    <tr data-tags="testo libido masse force" class="bg-teal">
+      <td><div class="sid">S3b</div><div class="sname">Libido / Hormonale</div></td>
+      <td><span class="sfmt">5 tours<br>CNS faible</span></td>
+      <td><span class="sfmt">Clean + DFS<br>+ Pompes + Farmer</span></td>
+      <td class="sdur">~15 min</td>
+      <td class="exo">• 3 reps Clean + DFS (36 kg)<br>• 5 pompes élastiques<br>• 30s Farmer Walk asymétrique</td>
+      <td>
+        <span class="badge b-testo2">Testo ↑↑</span>
+        <span class="badge b-libido">Libido / stamina</span>
+        <span class="badge b-masse">Densité musculaire</span>
+        <span class="badge b-force">Force fonctionnelle</span>
+        <span class="badge b-posture">Core / ventre plat</span>
+      </td>
+    </tr>
+
+    <tr data-tags="testo masse force graisse" class="bg-purple">
+      <td><div class="sid">S3c</div><div class="sname">M1 — DFS Brutal</div></td>
+      <td><span class="sfmt">5 tours × 6–8 reps<br>Dernier tour : échec</span></td>
+      <td><span class="sfmt">Double Front Squat<br>36 kg</span></td>
+      <td class="sdur">~15 min</td>
+      <td class="exo">• Double Front Squat (36 kg) × 6–8<br>• Dernier tour : reps max</td>
+      <td>
+        <span class="badge b-testo2">Testo ↑↑</span>
+        <span class="badge b-masse">Cuisses / fessiers</span>
+        <span class="badge b-force">Force lourde</span>
+        <span class="badge b-graisse">Combustion adipeuse</span>
+      </td>
+    </tr>
+
+    <tr data-tags="testo masse force" class="bg-blue">
+      <td><div class="sid">S3d</div><div class="sname">M2 — Épaules</div></td>
+      <td><span class="sfmt">EMOM 10 min<br>+1 rep / session</span></td>
+      <td><span class="sfmt">Clean &amp; Press<br>20 kg / bras</span></td>
+      <td class="sdur">~10 min</td>
+      <td class="exo">• 3–4 Clean &amp; Press 20 kg / bras</td>
+      <td>
+        <span class="badge b-masse">Épaules massives</span>
+        <span class="badge b-testo1">Testo stable</span>
+        <span class="badge b-force">Force overhead</span>
+      </td>
+    </tr>
+
+    <tr data-tags="masse libido" class="bg-teal">
+      <td><div class="sid">S3e</div><div class="sname">M3 — Push Hypertrophie</div></td>
+      <td><span class="sfmt">5 séries<br>Volume pecs</span></td>
+      <td><span class="sfmt">Pompes élastiques<br>+ Farmer Walk</span></td>
+      <td class="sdur">~15 min</td>
+      <td class="exo">• 10–15 pompes élastiques<br>• 30s Farmer Walk</td>
+      <td>
+        <span class="badge b-masse">Pecs / densité</span>
+        <span class="badge b-libido">Vascularisation</span>
+      </td>
+    </tr>
+
+    <tr class="just-row" data-tags="all">
+      <td colspan="2">
+        <div class="just-title">Just to Show Up</div>
+        <div style="font-size:11px;color:#888;margin-top:2px;">Jours OFF uniquement</div>
+      </td>
+      <td><span class="sfmt">2 mouvements<br>jamais à l'échec</span></td>
+      <td class="sdur">5–8 min</td>
+      <td class="exo">• DFS + Farmer Walk<br>• Clean léger + Pompes</td>
+      <td class="exo" style="color:#888;font-style:italic">Ne pas transformer en vraie séance.<br>Signal de maintien uniquement.</td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+  <strong>Règles à retenir :</strong><br>
+  Ne pas enchaîner M3 (S3e) → S2 en moins de 24h (push sur push).<br>
+  S3c (DFS Brutal) → pas de séance lactique le lendemain.<br>
+  Zone VERTE ≤ 2h avant sexe : S3b, ou Clean &amp; Press + Pompes + Farmer (6–8 min).<br>
+  Zone ROUGE ≤ 2h avant sexe : S2, S3c, AMRAP, squats lourds.
+</div>
+
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:#EBF4FF"></div>Cardio / GH — S1, S3d</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#F0EEFF"></div>Masse / Testo — S2, S3c</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#E8F8F2"></div>Mixte / Récup — S3a, S3b, S3e</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#F7F5EE"></div>Just to show up</div>
+</div>
+
+<script>
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+      const f = tag.dataset.filter;
+      document.querySelectorAll('#tbody tr').forEach(row => {
+        if (f === 'all' || row.dataset.tags.includes(f)) {
+          row.classList.remove('hidden');
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

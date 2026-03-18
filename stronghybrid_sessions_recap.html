@@ -1,0 +1,206 @@
+
+<style>
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+  .tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-secondary); transition: all 0.15s; }
+  .tag.active { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-border-info); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+  th { text-align: left; padding: 8px 10px; font-size: 11px; font-weight: 500; color: var(--color-text-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+  td { padding: 10px 10px; vertical-align: top; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); }
+  tr.hidden { display: none; }
+  tr:last-child td { border-bottom: none; }
+  .session-label { font-weight: 500; font-size: 13px; }
+  .session-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 2px 2px 2px 0; }
+  .b-testo { background: #FAEEDA; color: #633806; }
+  .b-gh { background: #E6F1FB; color: #0C447C; }
+  .b-lipid { background: #EAF3DE; color: #27500A; }
+  .b-mass { background: #EEEDFE; color: #3C3489; }
+  .b-libido { background: #FBEAF0; color: #72243E; }
+  .b-posture { background: #E1F5EE; color: #085041; }
+  .b-cardio { background: #F1EFE8; color: #444441; }
+  .exo { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; }
+  .format-pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); white-space: nowrap; }
+  col.c1 { width: 15%; }
+  col.c2 { width: 18%; }
+  col.c3 { width: 28%; }
+  col.c4 { width: 39%; }
+  .warn { font-size: 11px; color: var(--color-text-secondary); margin-top: 16px; padding: 8px 12px; border-left: 2px solid var(--color-border-secondary); }
+</style>
+
+<div style="padding: 1rem 0 0;">
+
+<div class="filter-bar" id="filters">
+  <span class="tag active" data-filter="all">Toutes</span>
+  <span class="tag" data-filter="testo">Testo</span>
+  <span class="tag" data-filter="gh">GH</span>
+  <span class="tag" data-filter="lipid">Lipolyse</span>
+  <span class="tag" data-filter="mass">Masse</span>
+  <span class="tag" data-filter="libido">Libido</span>
+  <span class="tag" data-filter="posture">Posture</span>
+  <span class="tag" data-filter="cardio">Cardio / tennis</span>
+</div>
+
+<table>
+  <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
+  <thead>
+    <tr>
+      <th>Session</th>
+      <th>Format</th>
+      <th>Exercices</th>
+      <th>Bénéfices</th>
+    </tr>
+  </thead>
+  <tbody id="tbody">
+
+    <tr data-tags="gh lipid cardio">
+      <td>
+        <div class="session-label">S1</div>
+        <div class="session-sub">Quick & Dead</div>
+      </td>
+      <td><span class="format-pill">30s ON / 30s OFF</span><div style="font-size:11px;margin-top:4px;color:var(--color-text-secondary);">10 min · 10 tours</div></td>
+      <td class="exo">
+        7–8 swings double KB (36 kg)<br>
+        5 pompes — élastiques ou explosives
+      </td>
+      <td>
+        <span class="badge b-testo">Testo ↑</span>
+        <span class="badge b-gh">GH ↑↑</span>
+        <span class="badge b-lipid">Lipolyse viscérale</span>
+        <span class="badge b-cardio">VO₂ / cardio</span>
+        <span class="badge b-posture">Core profond</span>
+      </td>
+    </tr>
+
+    <tr data-tags="testo mass posture">
+      <td>
+        <div class="session-label">S2</div>
+        <div class="session-sub">Force 5×5+</div>
+      </td>
+      <td><span class="format-pill">5 tours · 5 reps</span><div style="font-size:11px;margin-top:4px;color:var(--color-text-secondary);">Repos 90–120 s</div></td>
+      <td class="exo">
+        Clean & Press 20 kg / bras (alt. G/D)<br>
+        Double Front Squat (36 kg)<br>
+        Pompes élastiques
+      </td>
+      <td>
+        <span class="badge b-testo">Testo ↑↑</span>
+        <span class="badge b-gh">GH ↑</span>
+        <span class="badge b-mass">Masse dense</span>
+        <span class="badge b-posture">Lordose ↓</span>
+        <span class="badge b-lipid">Combustion adipeuse</span>
+      </td>
+    </tr>
+
+    <tr data-tags="gh lipid cardio posture">
+      <td>
+        <div class="session-label">S3a</div>
+        <div class="session-sub">Quick & Fun</div>
+      </td>
+      <td><span class="format-pill">5 tours · 2 min</span><div style="font-size:11px;margin-top:4px;color:var(--color-text-secondary);">10 min total</div></td>
+      <td class="exo">
+        30s Snatch 16 kg / 30s OFF<br>
+        30s Farmer Walk asymétrique / 30s OFF
+      </td>
+      <td>
+        <span class="badge b-gh">GH ↑↑</span>
+        <span class="badge b-testo">Testo ↑</span>
+        <span class="badge b-lipid">Lipolyse viscérale</span>
+        <span class="badge b-posture">Posture / équilibre</span>
+        <span class="badge b-cardio">Cardio / tennis</span>
+      </td>
+    </tr>
+
+    <tr data-tags="testo libido mass">
+      <td>
+        <div class="session-label">S3b</div>
+        <div class="session-sub">Libido</div>
+      </td>
+      <td><span class="format-pill">5 tours</span><div style="font-size:11px;margin-top:4px;color:var(--color-text-secondary);">~15 min · CNS faible</div></td>
+      <td class="exo">
+        3 reps Clean + DFS (36 kg)<br>
+        5 pompes élastiques<br>
+        30s Farmer Walk asymétrique
+      </td>
+      <td>
+        <span class="badge b-testo">Testo ↑↑</span>
+        <span class="badge b-libido">Libido ↑</span>
+        <span class="badge b-mass">Densité musculaire</span>
+        <span class="badge b-posture">Core / ventre plat</span>
+      </td>
+    </tr>
+
+    <tr data-tags="testo mass lipid">
+      <td>
+        <div class="session-label">S3c</div>
+        <div class="session-sub">M1 · DFS Brutal</div>
+      </td>
+      <td><span class="format-pill">5 tours · 6–8 reps</span><div style="font-size:11px;margin-top:4px;color:var(--color-text-secondary);">Dernier tour : échec</div></td>
+      <td class="exo">
+        Double Front Squat (36 kg) × 6–8<br>
+        Dernier tour : reps max
+      </td>
+      <td>
+        <span class="badge b-testo">Testo ↑↑</span>
+        <span class="badge b-mass">Cuisses / fessiers</span>
+        <span class="badge b-lipid">Force lourde</span>
+      </td>
+    </tr>
+
+    <tr data-tags="testo mass">
+      <td>
+        <div class="session-label">S3d</div>
+        <div class="session-sub">M2 · Épaules</div>
+      </td>
+      <td><span class="format-pill">EMOM 10 min</span><div style="font-size:11px;margin-top:4px;color:var(--color-text-secondary);">+1 rep / session</div></td>
+      <td class="exo">
+        3–4 Clean & Press 20 kg / bras
+      </td>
+      <td>
+        <span class="badge b-mass">Épaules massives</span>
+        <span class="badge b-testo">Testo stable</span>
+        <span class="badge b-mass">Force overhead</span>
+      </td>
+    </tr>
+
+    <tr data-tags="mass libido">
+      <td>
+        <div class="session-label">S3e</div>
+        <div class="session-sub">M3 · Push</div>
+      </td>
+      <td><span class="format-pill">5 séries</span><div style="font-size:11px;margin-top:4px;color:var(--color-text-secondary);">Volume pecs</div></td>
+      <td class="exo">
+        10–15 pompes élastiques<br>
+        30s Farmer Walk
+      </td>
+      <td>
+        <span class="badge b-mass">Pecs volumineux</span>
+        <span class="badge b-libido">Pump / vascularisation</span>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<div class="warn">Ne pas enchaîner M3 → S2 (push sur push en 24h). S3c (DFS brutal) → pas de séance lactique le lendemain.</div>
+
+</div>
+
+<script>
+  const tags = document.querySelectorAll('.tag');
+  const rows = document.querySelectorAll('#tbody tr');
+
+  tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      tags.forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+      const filter = tag.dataset.filter;
+      rows.forEach(row => {
+        if (filter === 'all' || row.dataset.tags.includes(filter)) {
+          row.classList.remove('hidden');
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>

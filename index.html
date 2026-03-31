@@ -3,234 +3,934 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StrongHybrid 4.1 — Sessions</title>
+<title>StrongHybrid — Programme</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: #f4f4f0; color: #1a1a1a; padding: 16px; }
-  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; color: #1A1A2E; }
-  .subtitle { font-size: 12px; color: #777; margin-bottom: 16px; }
-
-  .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-  .tag { padding: 6px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; border: 1px solid #ccc; background: #fff; color: #555; transition: all 0.15s; user-select: none; }
-  .tag.active { background: #1A1A2E; color: #fff; border-color: #1A1A2E; }
-
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; min-width: 680px; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-  th { padding: 10px 12px; font-size: 11px; font-weight: 600; color: #fff; background: #2D3561; text-align: left; border-bottom: 1px solid #1A1A2E; }
-  td { padding: 12px 12px; font-size: 13px; vertical-align: top; border-bottom: 1px solid #eee; line-height: 1.5; }
-  tr:last-child td { border-bottom: none; }
-  tr.hidden { display: none; }
-
-  .sid  { font-weight: 700; font-size: 13px; }
-  .sname{ font-weight: 600; font-size: 12px; color: #444; margin-top: 2px; }
-  .sfmt { font-size: 12px; color: #555; line-height: 1.6; }
-  .sdur { font-size: 12px; color: #999; white-space: nowrap; }
-  .exo  { font-size: 12px; line-height: 1.8; color: #333; }
-
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 2px 2px 2px 0; }
-  .b-testo2 { background: #FAC775; color: #412402; }
-  .b-testo1 { background: #FAEEDA; color: #633806; }
-  .b-gh2    { background: #85B7EB; color: #042C53; }
-  .b-gh1    { background: #E6F1FB; color: #0C447C; }
-  .b-graisse{ background: #C0DD97; color: #173404; }
-  .b-masse  { background: #CECBF6; color: #26215C; }
-  .b-libido { background: #F4C0D1; color: #4B1528; }
-  .b-posture{ background: #9FE1CB; color: #04342C; }
-  .b-tennis { background: #F5C4B3; color: #4A1B0C; }
-  .b-force  { background: #D3D1C7; color: #2C2C2A; }
-
-  .bg-blue   { background: #EBF4FF; }
-  .bg-purple { background: #F0EEFF; }
-  .bg-teal   { background: #E8F8F2; }
-  .bg-gray   { background: #F7F5EE; }
-
-  .note { margin-top: 14px; padding: 10px 14px; background: #fffdf3; border-left: 3px solid #e6c84a; border-radius: 0 6px 6px 0; font-size: 11px; color: #7a5c00; line-height: 1.7; }
-
-  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #666; }
-  .leg-dot  { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; border: 1px solid #ccc; }
-
-  .just-row td { background: #F7F5EE; }
-  .just-title  { font-weight: 600; font-size: 12px; color: #444; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: #f4f4f0; color: #1a1a1a; max-width: 1200px; margin: 0 auto; }
+ 
+/* ── TABS ── */
+.tab-nav { display: flex; background: #1A1A2E; padding: 0 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.tab-btn { padding: 14px 22px; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; border: none; background: none; border-bottom: 3px solid transparent; transition: all 0.2s; letter-spacing: 0.03em; white-space: nowrap; }
+.tab-btn.active { color: #fff; border-bottom-color: #d4a843; }
+.tab-btn:hover:not(.active) { color: #aaa; }
+.tab-content { display: none; padding: 16px 16px 60px; }
+.tab-content.active { display: block; }
+ 
+/* ── TYPOGRAPHY ── */
+h1 { font-size: 20px; font-weight: 700; margin-bottom: 2px; color: #1A1A2E; }
+.subtitle { font-size: 12px; color: #777; margin-bottom: 20px; }
+h2 { font-size: 12px; font-weight: 700; color: #2D3561; margin: 24px 0 10px; text-transform: uppercase; letter-spacing: 0.05em; border-left: 3px solid #2D3561; padding-left: 8px; }
+ 
+/* ── STRATEGY / GRID CARDS ── */
+.strat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 10px; margin-bottom: 4px; }
+.strat-card { background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; padding: 10px 12px; font-size: 12px; line-height: 1.7; color: #444; }
+.strat-card strong { display: block; font-size: 11px; font-weight: 700; color: #2D3561; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+ 
+/* ── OBJECTIVES ── */
+.obj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 7px; margin-bottom: 4px; }
+.obj-card { background: #fff; border-radius: 7px; border: 1px solid #e0e0e0; padding: 8px 12px; display: flex; align-items: center; gap: 10px; font-size: 12px; color: #444; line-height: 1.4; }
+.obj-num { font-weight: 800; font-size: 16px; color: #ddd; min-width: 18px; }
+.obj-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+ 
+/* ── FILTERS ── */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.tag { padding: 5px 13px; border-radius: 20px; font-size: 12px; cursor: pointer; border: 1px solid #ccc; background: #fff; color: #555; transition: all 0.15s; user-select: none; }
+.tag.active { background: #1A1A2E; color: #fff; border-color: #1A1A2E; }
+ 
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; min-width: 700px; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+th { padding: 9px 11px; font-size: 11px; font-weight: 600; color: #fff; background: #2D3561; text-align: left; }
+td { padding: 11px 11px; font-size: 13px; vertical-align: top; border-bottom: 1px solid #eee; line-height: 1.5; }
+tr:last-child td { border-bottom: none; }
+tr.hidden { display: none; }
+.sid { font-weight: 700; font-size: 14px; }
+.sname { font-weight: 600; font-size: 12px; color: #444; margin-top: 2px; }
+.sfmt { font-size: 12px; color: #555; line-height: 1.6; }
+.sdur { font-size: 12px; color: #999; white-space: nowrap; }
+.exo { font-size: 12px; line-height: 1.85; color: #333; }
+.bloc { font-size: 11px; font-weight: 700; color: #666; margin-top: 6px; display: block; }
+ 
+/* ── BADGES ── */
+.badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 11px; margin: 2px 2px 2px 0; }
+.b-testo2  { background: #FAC775; color: #412402; }
+.b-testo1  { background: #FAEEDA; color: #633806; }
+.b-gh2     { background: #85B7EB; color: #042C53; }
+.b-graisse { background: #C0DD97; color: #173404; }
+.b-masse   { background: #CECBF6; color: #26215C; }
+.b-libido  { background: #F4C0D1; color: #4B1528; }
+.b-posture { background: #9FE1CB; color: #04342C; }
+.b-tennis  { background: #F5C4B3; color: #4A1B0C; }
+.b-force   { background: #D3D1C7; color: #2C2C2A; }
+ 
+/* ── ROW COLORS ── */
+.bg-purple { background: #F0EEFF; }
+.bg-blue   { background: #EBF4FF; }
+.bg-orange { background: #FFF4EC; }
+.bg-teal   { background: #E8F8F2; }
+.bg-green  { background: #F0FAF2; }
+.just-row td { background: #F7F5EE; }
+.opt-row td  { background: #fafaf7; }
+.just-title  { font-weight: 600; font-size: 12px; color: #444; }
+ 
+/* ── CALENDAR ── */
+.cal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 6px; }
+.cal-card { background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; overflow: hidden; }
+.cal-head { background: #2D3561; color: #fff; padding: 8px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.cal-days { display: flex; }
+.cal-day { flex: 1; padding: 10px 8px; text-align: center; border-right: 1px solid #eee; }
+.cal-day:last-child { border-right: none; }
+.cal-day .dl { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 0.04em; }
+.cal-day .ds { font-weight: 800; font-size: 20px; margin: 3px 0 1px; }
+.cal-day .dn { font-size: 10px; color: #888; }
+.day-a .ds { color: #7c3aed; }
+.day-b .ds { color: #0369a1; }
+.day-c .ds { color: #15803d; }
+ 
+/* ── NOTE BOX ── */
+.note { margin-top: 14px; padding: 10px 14px; background: #fffdf3; border-left: 3px solid #e6c84a; border-radius: 0 6px 6px 0; font-size: 11px; color: #7a5c00; line-height: 2; }
+.note strong { display: block; margin-bottom: 2px; }
+ 
+/* ── INDICATORS ── */
+.indic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
+.indic-card { background: #fff; border-radius: 7px; border: 1px solid #e0e0e0; padding: 9px 12px; }
+.indic-freq { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #2D3561; margin-bottom: 3px; }
+.indic-text { font-size: 12px; color: #555; line-height: 1.5; }
+ 
+/* ── LEGEND ── */
+.legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #666; }
+.leg-dot { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; border: 1px solid #ccc; }
+ 
+/* ── JOURNAL SECTION ── */
+.panel { background: #fff; border-radius: 10px; border: 1px solid #e0e0e0; overflow: hidden; margin-top: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+.panel-head { background: #2D3561; color: #fff; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+.panel-head h3 { font-size: 13px; font-weight: 600; letter-spacing: 0.03em; }
+.panel-head .arrow { transition: transform 0.2s; font-size: 12px; }
+.panel-head.open .arrow { transform: rotate(180deg); }
+.panel-body { padding: 16px; display: none; }
+.panel-body.open { display: block; }
+ 
+.sess-selector { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.sess-btn { padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; border: 2px solid #ddd; background: #fff; color: #aaa; transition: all 0.15s; }
+.sess-btn.sel-a { border-color: #7c3aed; background: #F0EEFF; color: #7c3aed; }
+.sess-btn.sel-b { border-color: #0369a1; background: #EBF4FF; color: #0369a1; }
+.sess-btn.sel-c { border-color: #15803d; background: #F0FAF2; color: #15803d; }
+ 
+.date-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.date-row label { font-size: 12px; color: #666; font-weight: 600; }
+.date-row input { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; }
+ 
+.exo-track { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; }
+.exo-track:last-child { border-bottom: none; }
+.exo-track-name { font-size: 12px; font-weight: 700; color: #2D3561; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.03em; }
+.sets-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+.set-grp { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.set-grp label { font-size: 10px; color: #999; }
+.set-grp input { width: 54px; padding: 7px 4px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; font-weight: 700; text-align: center; color: #1a1a1a; }
+.set-grp input:focus { outline: none; border-color: #2D3561; box-shadow: 0 0 0 2px rgba(45,53,97,0.1); }
+.prev-info { font-size: 11px; color: #aaa; align-self: flex-end; padding-bottom: 4px; }
+.prog-pill { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; align-self: flex-end; padding-bottom: 7px; }
+.prog-up   { background: #C0DD97; color: #173404; }
+.prog-same { background: #e8e8e8; color: #555; }
+.prog-down { background: #FAC775; color: #412402; }
+ 
+.notes-row { margin-top: 14px; }
+.notes-row label { font-size: 12px; color: #666; font-weight: 600; display: block; margin-bottom: 5px; }
+.notes-row textarea { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; color: #1a1a1a; resize: vertical; min-height: 60px; font-family: inherit; }
+ 
+.journal-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; align-items: center; }
+.btn-save  { padding: 10px 20px; background: #2D3561; color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn-save:hover { background: #1A1A2E; }
+.btn-email { padding: 10px 20px; background: #d4a843; color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn-email:hover { background: #b8912e; }
+.btn-clear { padding: 9px 14px; background: #fff; color: #999; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; cursor: pointer; }
+.btn-danger { padding: 9px 14px; background: #fff; color: #c0392b; border: 1px solid #e8b4b4; border-radius: 6px; font-size: 11px; cursor: pointer; }
+.save-toast { display: none; padding: 8px 14px; background: #C0DD97; color: #173404; border-radius: 6px; font-size: 12px; font-weight: 600; }
+.save-toast.show { display: inline-block; }
+ 
+/* ── HISTORY ── */
+.hist-panel-head { background: #f7f5ee; color: #2D3561; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; border-bottom: 1px solid #eee; }
+.hist-panel-head h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.hist-body { padding: 12px 16px; display: none; }
+.hist-body.open { display: block; }
+.hist-empty { font-size: 12px; color: #aaa; font-style: italic; }
+.hist-entry { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+.hist-entry:last-child { border-bottom: none; }
+.hist-entry-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.hist-type { font-weight: 800; font-size: 12px; padding: 2px 9px; border-radius: 4px; }
+.ht-a { background: #F0EEFF; color: #7c3aed; }
+.ht-b { background: #EBF4FF; color: #0369a1; }
+.ht-c { background: #F0FAF2; color: #15803d; }
+.hist-date { font-size: 11px; color: #999; }
+.hist-detail { font-size: 11px; color: #666; line-height: 1.8; }
+.btn-del { background: none; border: none; color: #ccc; cursor: pointer; font-size: 13px; margin-left: auto; padding: 2px 5px; border-radius: 3px; }
+.btn-del:hover { color: #e74c3c; background: #fff0f0; }
+ 
+@media (max-width: 640px) {
+  .cal-grid { grid-template-columns: 1fr; }
+  .strat-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-
-<h1>StrongHybrid 4.1 — Sessions</h1>
-<p class="subtitle">Filtre par objectif pour choisir ta session du jour</p>
-
-<div class="filter-bar" id="filters">
-  <span class="tag active" data-filter="all">Toutes</span>
-  <span class="tag" data-filter="graisse">Graisse ventre</span>
-  <span class="tag" data-filter="masse">Masse / densité</span>
-  <span class="tag" data-filter="testo">Testo</span>
-  <span class="tag" data-filter="gh">GH</span>
-  <span class="tag" data-filter="libido">Libido / stamina</span>
-  <span class="tag" data-filter="tennis">Tennis / explosivité</span>
-  <span class="tag" data-filter="force">Force</span>
-  <span class="tag" data-filter="posture">Posture</span>
+ 
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('new',this)">⚡ REPS 2.0 — Actuel</button>
+  <button class="tab-btn" onclick="switchTab('old',this)">📁 Archive — v4.1</button>
 </div>
-
+ 
+ 
+<!-- ══════════════════════════════════════════ -->
+<!--  TAB 1 — NOUVEAU PROGRAMME REPS 2.0       -->
+<!-- ══════════════════════════════════════════ -->
+<div id="tab-new" class="tab-content active">
+ 
+<h1 style="margin-top:4px">StrongHybrid REPS 2.0 — Programme actuel</h1>
+<p class="subtitle">3 séances KB / semaine · ~20 min · Split Upper / Lower · Progression mesurée · Démarré le ___/___/2025</p>
+ 
+<h2>Stratégie réelle</h2>
+<div class="strat-grid">
+  <div class="strat-card"><strong>Principe REPS</strong>Chaque série poussée à l'échec <em>technique</em> : dernière rep parfaite. Dès que dos arrondi, coude qui part, hanche qui bascule → stop.</div>
+  <div class="strat-card"><strong>Lift to lose</strong>"If you want to lose weight, you have to lift weight." Construire du muscle augmente le métabolisme basal. La lipolyse suit.</div>
+  <div class="strat-card"><strong>Split strict Upper / Lower</strong>Session A = haut du corps uniquement. Session B = bas du corps uniquement. On ne mélange pas → volume suffisant par groupe.</div>
+  <div class="strat-card"><strong>Progression mesurée</strong>Noter les reps à chaque séance. Objectif : +1 rep sur au moins une série à la session suivante. Sans progression notée = sans résultat.</div>
+  <div class="strat-card"><strong>Quick &amp; Dead fixe</strong>Session C hebdomadaire non négociable. Lipolyse viscérale + GH. ~10 min, intense, court. Ne jamais la remplacer par A ou B.</div>
+  <div class="strat-card"><strong>Polyarticulaires only</strong>Clean &amp; Press, Deadlift, Squat, Row = max de masse musculaire activée = max de signal hormonal (testo + GH). Pas d'isolation.</div>
+</div>
+ 
+<h2>Objectifs hiérarchisés</h2>
+<div class="obj-grid">
+  <div class="obj-card"><span class="obj-num">1</span><span class="obj-dot" style="background:#6abf55"></span>Graisse viscérale &amp; adipeuse abdominale — Lipolyse</div>
+  <div class="obj-card"><span class="obj-num">2</span><span class="obj-dot" style="background:#a78bfa"></span>Masse / densité musculaire</div>
+  <div class="obj-card"><span class="obj-num">3</span><span class="obj-dot" style="background:#f97316"></span>Explosivité — tennis &amp; puissance athlétique</div>
+  <div class="obj-card"><span class="obj-num">4</span><span class="obj-dot" style="background:#f0a500"></span>Testostérone naturelle ↑</div>
+  <div class="obj-card"><span class="obj-num">5</span><span class="obj-dot" style="background:#3b82f6"></span>Growth Hormone ↑↑</div>
+  <div class="obj-card"><span class="obj-num">6</span><span class="obj-dot" style="background:#ec4899"></span>Libido / Stamina / Puissance</div>
+  <div class="obj-card"><span class="obj-num">7</span><span class="obj-dot" style="background:#14b8a6"></span>Posture — lordose &amp; compensations hanches</div>
+</div>
+ 
+<h2>Séances — filtre par objectif</h2>
+<div class="filter-bar" id="fn">
+  <span class="tag active" data-filter="all" data-tbody="tbn">Toutes</span>
+  <span class="tag" data-filter="graisse" data-tbody="tbn">Graisse ventre</span>
+  <span class="tag" data-filter="masse" data-tbody="tbn">Masse / densité</span>
+  <span class="tag" data-filter="testo" data-tbody="tbn">Testo</span>
+  <span class="tag" data-filter="gh" data-tbody="tbn">GH</span>
+  <span class="tag" data-filter="libido" data-tbody="tbn">Libido / stamina</span>
+  <span class="tag" data-filter="tennis" data-tbody="tbn">Tennis / explosivité</span>
+  <span class="tag" data-filter="force" data-tbody="tbn">Force</span>
+  <span class="tag" data-filter="posture" data-tbody="tbn">Posture</span>
+</div>
+ 
 <div class="table-wrap">
 <table>
-  <thead>
-    <tr>
-      <th style="width:10%">ID</th>
-      <th style="width:13%">Nom</th>
-      <th style="width:15%">Format</th>
-      <th style="width:7%">Durée</th>
-      <th style="width:24%">Exercices</th>
-      <th style="width:31%">Objectifs ciblés</th>
-    </tr>
-  </thead>
-  <tbody id="tbody">
-
-    <tr data-tags="graisse gh testo tennis" class="bg-blue">
-      <td><div class="sid">S1</div><div class="sname">Quick &amp; Dead</div></td>
-      <td><span class="sfmt">30s ON / 30s OFF<br>10 tours</span></td>
-      <td><span class="sfmt">Swings + pompes<br>en alternance</span></td>
-      <td class="sdur">~10 min</td>
-      <td class="exo">• 7–8 swings double KB (36 kg)<br>• 5 pompes — élastiques ou explosives</td>
-      <td>
-        <span class="badge b-graisse">Graisse ventre</span>
-        <span class="badge b-gh2">GH ↑↑</span>
-        <span class="badge b-testo1">Testo ↑</span>
-        <span class="badge b-tennis">Cardio / VO₂</span>
-        <span class="badge b-posture">Core profond</span>
-      </td>
-    </tr>
-
-    <tr data-tags="testo masse force posture graisse" class="bg-purple">
-      <td><div class="sid">S2</div><div class="sname">Force 5×5+</div></td>
-      <td><span class="sfmt">5 tours × 5 reps<br>Repos 90–120 s</span></td>
-      <td><span class="sfmt">Clean &amp; Press<br>+ DFS + Pompes</span></td>
+  <thead><tr>
+    <th style="width:10%">ID</th>
+    <th style="width:9%">Format</th>
+    <th style="width:12%">Structure</th>
+    <th style="width:6%">Durée</th>
+    <th style="width:32%">Exercices</th>
+    <th style="width:31%">Objectifs ciblés</th>
+  </tr></thead>
+  <tbody id="tbn">
+ 
+    <!-- SESSION A -->
+    <tr data-tags="testo masse force posture graisse libido" class="bg-purple">
+      <td><div class="sid">A</div><div class="sname">Upper Body<br>Push / Pull</div></td>
+      <td><span class="sfmt">Balistique<br>+ Grind ×2<br>+ Finisher</span></td>
+      <td><span class="sfmt">Explosif → Force<br>→ Hypertrophie</span></td>
       <td class="sdur">~20 min</td>
-      <td class="exo">• Clean &amp; Press 20 kg / bras (alt. G/D)<br>• Double Front Squat (36 kg)<br>• Pompes élastiques</td>
-      <td>
-        <span class="badge b-testo2">Testo ↑↑</span>
-        <span class="badge b-gh1">GH ↑</span>
-        <span class="badge b-masse">Masse dense</span>
-        <span class="badge b-force">Force fondamentale</span>
-        <span class="badge b-posture">Lordose ↓</span>
-        <span class="badge b-graisse">Combustion adipeuse</span>
+      <td class="exo">
+        <span class="bloc" style="margin-top:0">⚡ Balistique — Primer neural · 5×3 / bras · repos 60–90 s</span>
+        • Clean &amp; Press <strong>16 kg</strong> / bras — 60–70 % intensité, chaque rep explosive et propre<br>
+        <span style="font-size:11px;color:#999">↳ Dès que la vitesse baisse sur une rep : stop. C'est un allumage nerveux, pas un effort.</span><br>
+        <span class="bloc">💪 Grind Pull — Échec technique · 3–4 séries · repos 90 s</span>
+        • KB Row 20 kg / bras (ou élastique bleu ancré haut)<br>
+        <span class="bloc">💪 Grind Push — Échec technique · 3–4 séries · repos 90 s</span>
+        • Bench Press KB 16 kg / bras sur banc — ROM complète, stop 1 s en bas<br>
+        <span style="font-size:11px;color:#999">↳ Passage à 20 kg quand 15+ reps propres sur toutes les séries.</span><br>
+        <span class="bloc">🏁 Finisher</span>
+        • Farmer Walk asymétrique (20 kg + 16 kg) — 3×40 s<br>
+        <span style="font-size:11px;color:#888">Échec technique = technique qui flanche · dos arrondi / coude qui part → stop immédiat</span>
       </td>
-    </tr>
-
-    <tr data-tags="graisse gh testo posture tennis" class="bg-teal">
-      <td><div class="sid">S3a</div><div class="sname">Quick &amp; Fun</div></td>
-      <td><span class="sfmt">5 tours × 2 min<br>30s ON / 30s OFF</span></td>
-      <td><span class="sfmt">Snatch + Farmer Walk<br>asymétrique</span></td>
-      <td class="sdur">~10 min</td>
-      <td class="exo">• 30s Snatch 16 kg / 30s OFF<br>• 30s Farmer Walk asymétrique<br>&nbsp;&nbsp;(20 kg rack + 16 kg bas) / 30s OFF</td>
       <td>
-        <span class="badge b-gh2">GH ↑↑</span>
-        <span class="badge b-graisse">Graisse ventre</span>
-        <span class="badge b-tennis">Tennis / explosivité</span>
-        <span class="badge b-posture">Posture / équilibre</span>
-        <span class="badge b-testo1">Testo ↑</span>
-      </td>
-    </tr>
-
-    <tr data-tags="testo libido masse force" class="bg-teal">
-      <td><div class="sid">S3b</div><div class="sname">Libido / Hormonale</div></td>
-      <td><span class="sfmt">5 tours<br>CNS faible</span></td>
-      <td><span class="sfmt">Clean + DFS<br>+ Pompes + Farmer</span></td>
-      <td class="sdur">~15 min</td>
-      <td class="exo">• 3 reps Clean + DFS (36 kg)<br>• 5 pompes élastiques<br>• 30s Farmer Walk asymétrique</td>
-      <td>
+        <span class="badge b-masse">Pecs épais</span>
+        <span class="badge b-masse">Épaules / dos</span>
         <span class="badge b-testo2">Testo ↑↑</span>
         <span class="badge b-libido">Libido / stamina</span>
-        <span class="badge b-masse">Densité musculaire</span>
-        <span class="badge b-force">Force fonctionnelle</span>
-        <span class="badge b-posture">Core / ventre plat</span>
-      </td>
-    </tr>
-
-    <tr data-tags="testo masse force graisse" class="bg-purple">
-      <td><div class="sid">S3c</div><div class="sname">M1 — DFS Brutal</div></td>
-      <td><span class="sfmt">5 tours × 6–8 reps<br>Dernier tour : échec</span></td>
-      <td><span class="sfmt">Double Front Squat<br>36 kg</span></td>
-      <td class="sdur">~15 min</td>
-      <td class="exo">• Double Front Squat (36 kg) × 6–8<br>• Dernier tour : reps max</td>
-      <td>
-        <span class="badge b-testo2">Testo ↑↑</span>
-        <span class="badge b-masse">Cuisses / fessiers</span>
-        <span class="badge b-force">Force lourde</span>
+        <span class="badge b-force">Force fondamentale</span>
+        <span class="badge b-posture">Posture / lordose ↓</span>
         <span class="badge b-graisse">Combustion adipeuse</span>
       </td>
     </tr>
-
-    <tr data-tags="testo masse force" class="bg-blue">
-      <td><div class="sid">S3d</div><div class="sname">M2 — Épaules</div></td>
-      <td><span class="sfmt">EMOM 10 min<br>+1 rep / session</span></td>
-      <td><span class="sfmt">Clean &amp; Press<br>20 kg / bras</span></td>
+ 
+    <!-- SESSION B -->
+    <tr data-tags="testo gh masse force posture graisse tennis" class="bg-blue">
+      <td><div class="sid">B</div><div class="sname">Lower Body<br>Hip Hinge &amp; Squat</div></td>
+      <td><span class="sfmt">Balistique<br>+ Grind ×2<br>+ Core</span></td>
+      <td><span class="sfmt">Explosif → Force<br>→ Hypertrophie</span></td>
+      <td class="sdur">~20 min</td>
+      <td class="exo">
+        <span class="bloc" style="margin-top:0">⚡ Balistique — Primer neural · 5×5 · repos 60–90 s</span>
+        • Swing double KB 36 kg — explosif, hanches, 60–70 % intensité<br>
+        <span style="font-size:11px;color:#999">↳ Toujours avant les grind. Dès que la puissance baisse : stop. Pas de fatigue accumulée.</span><br>
+        <span class="bloc">💪 Grind Hinge — Échec technique · 3–4 séries · repos 90 s</span>
+        • Deadlift 36 kg + élastique rouge<br>
+        <span class="bloc">💪 Grind Squat — Échec technique · 3–4 séries · repos 90 s</span>
+        • Double Front Squat 36 kg<br>
+        <span class="bloc">🏁 Core / Stabilisation</span>
+        • Hollow body hold ou planche — 3×30 s<br>
+        • Dead bug — 3×8 (core profond, anti-lordose)<br>
+        <span style="font-size:11px;color:#888">Ne pas faire B la veille d'une séance tennis</span>
+      </td>
+      <td>
+        <span class="badge b-testo2">Testo ↑↑</span>
+        <span class="badge b-gh2">GH ↑↑</span>
+        <span class="badge b-masse">Cuisses / fessiers</span>
+        <span class="badge b-force">Force lourde</span>
+        <span class="badge b-posture">Core / ventre plat</span>
+        <span class="badge b-graisse">Combustion adipeuse</span>
+        <span class="badge b-tennis">Explosivité tennis</span>
+      </td>
+    </tr>
+ 
+    <!-- SESSION C -->
+    <tr data-tags="graisse gh testo tennis" class="bg-green">
+      <td><div class="sid">C</div><div class="sname">Quick &amp; Dead<br>Conditioning</div></td>
+      <td><span class="sfmt">EMOM 10 min</span></td>
+      <td><span class="sfmt">Min impaire : swings<br>Min paire : pompes</span></td>
       <td class="sdur">~10 min</td>
-      <td class="exo">• 3–4 Clean &amp; Press 20 kg / bras</td>
+      <td class="exo">
+        • Min impaire → 8 swings double KB (36 kg)<br>
+        • Min paire → 6 pompes explosives ou élastiques<br>
+        <span style="font-size:11px;color:#888">5 rounds de chaque · Régularité &gt; intensité<br>
+        Si créneau impossible : ajouter 8–10 min en finisher de A ou B · Tennis compte comme équivalent C</span>
+      </td>
       <td>
-        <span class="badge b-masse">Épaules massives</span>
-        <span class="badge b-testo1">Testo stable</span>
-        <span class="badge b-force">Force overhead</span>
+        <span class="badge b-graisse">Graisse viscérale ↓</span>
+        <span class="badge b-gh2">GH ↑↑</span>
+        <span class="badge b-testo1">Testo ↑</span>
+        <span class="badge b-tennis">Cardio / explosivité</span>
       </td>
     </tr>
-
-    <tr data-tags="masse libido" class="bg-teal">
-      <td><div class="sid">S3e</div><div class="sname">M3 — Push Hypertrophie</div></td>
-      <td><span class="sfmt">5 séries<br>Volume pecs</span></td>
-      <td><span class="sfmt">Pompes élastiques<br>+ Farmer Walk</span></td>
-      <td class="sdur">~15 min</td>
-      <td class="exo">• 10–15 pompes élastiques<br>• 30s Farmer Walk</td>
-      <td>
-        <span class="badge b-masse">Pecs / densité</span>
-        <span class="badge b-libido">Vascularisation</span>
-      </td>
-    </tr>
-
+ 
+    <!-- Just to Show Up -->
     <tr class="just-row" data-tags="all">
-      <td colspan="2">
-        <div class="just-title">Just to Show Up</div>
-        <div style="font-size:11px;color:#888;margin-top:2px;">Jours OFF uniquement</div>
-      </td>
-      <td><span class="sfmt">2 mouvements<br>jamais à l'échec</span></td>
+      <td colspan="2"><div class="just-title">Just to Show Up</div><div style="font-size:11px;color:#888;margin-top:2px;">Jours OFF uniquement</div></td>
+      <td><span class="sfmt">2 mouvements<br>max 15 reps · jamais à l'échec</span></td>
       <td class="sdur">5–8 min</td>
       <td class="exo">• DFS + Farmer Walk<br>• Clean léger + Pompes</td>
-      <td class="exo" style="color:#888;font-style:italic">Ne pas transformer en vraie séance.<br>Signal de maintien uniquement.</td>
+      <td class="exo" style="color:#666;font-size:12px;">Signal de maintien uniquement.<br>Ne pas transformer en vraie séance.</td>
     </tr>
-
+ 
+    <!-- Optionnel -->
+    <tr class="opt-row" data-tags="all">
+      <td colspan="2"><div class="just-title" style="color:#999">Optionnel — Pas chez moi</div><div style="font-size:11px;color:#bbb;margin-top:2px;">Sans matériel</div></td>
+      <td><span class="sfmt" style="color:#aaa">5 séries · toutes les 2 min</span></td>
+      <td class="sdur" style="color:#bbb">~8 min</td>
+      <td class="exo" style="color:#888">• 15–20 pompes densité<br><span style="font-size:11px;color:#bbb;font-style:italic">Partout, sans matériel</span></td>
+      <td><span class="badge b-masse" style="opacity:0.6">Pecs / densité</span></td>
+    </tr>
+ 
   </tbody>
 </table>
 </div>
-
-<div class="note">
-  <strong>Règles à retenir :</strong><br>
-  Ne pas enchaîner M3 (S3e) → S2 en moins de 24h (push sur push).<br>
-  S3c (DFS Brutal) → pas de séance lactique le lendemain.<br>
-  Zone VERTE ≤ 2h avant sexe : S3b, ou Clean &amp; Press + Pompes + Farmer (6–8 min).<br>
-  Zone ROUGE ≤ 2h avant sexe : S2, S3c, AMRAP, squats lourds.
+ 
+<!-- CALENDAR -->
+<h2>Calendrier — 2 semaines alternées</h2>
+<div class="cal-grid">
+  <div class="cal-card">
+    <div class="cal-head">Semaine 1 — A · C · B</div>
+    <div class="cal-days">
+      <div class="cal-day day-a"><div class="dl">Lundi</div><div class="ds">A</div><div class="dn">Upper Push/Pull</div></div>
+      <div class="cal-day day-c"><div class="dl">Mercredi</div><div class="ds">C</div><div class="dn">Quick &amp; Dead</div></div>
+      <div class="cal-day day-b"><div class="dl">Vendredi</div><div class="ds">B</div><div class="dn">Lower &amp; Hinge</div></div>
+    </div>
+  </div>
+  <div class="cal-card">
+    <div class="cal-head">Semaine 2 — B · C · A</div>
+    <div class="cal-days">
+      <div class="cal-day day-b"><div class="dl">Lundi</div><div class="ds">B</div><div class="dn">Lower &amp; Hinge</div></div>
+      <div class="cal-day day-c"><div class="dl">Mercredi</div><div class="ds">C</div><div class="dn">Quick &amp; Dead</div></div>
+      <div class="cal-day day-a"><div class="dl">Vendredi</div><div class="ds">A</div><div class="dn">Upper Push/Pull</div></div>
+    </div>
+  </div>
 </div>
-
+<div style="font-size:11px;color:#888;margin-top:5px;padding:0 2px">Tennis = 4ᵉ séance optionnelle · Ne pas faire B la veille d'une séance tennis (overlap chaîne postérieure)</div>
+ 
+<div class="note">
+  <strong>Règles système :</strong>
+  <ul style="margin-top:6px;margin-left:16px;line-height:2.1">
+    <li><strong>Échec technique</strong> = dernière rep parfaite. Dos arrondi / coude qui part / hanche qui bascule → stop immédiat. Pas l'essoufflement.</li>
+    <li><strong>Balistiques primer</strong> : 60–70 % intensité · repos 60–90 s complets · dès que la vitesse d'une rep baisse → arrêt du set. C'est un allumage, pas un effort.</li>
+    <li><strong>Split strict</strong> : ne pas enchaîner A → A ou B → B en moins de 48h. Ne pas faire B la veille d'une séance tennis.</li>
+    <li><strong>Session C</strong> : priorité basse si semaine chargée. A et B d'abord. Si pas de créneau, ajouter 8–10 min Q&amp;D en finisher de A ou B. Tennis = équivalent C.</li>
+    <li><strong>Bench Press 16 kg</strong> : ROM complète sur banc, stop 1 s en bas. Passage à 20 kg quand 15+ reps propres sur toutes les séries.</li>
+    <li><strong>Progression</strong> : noter les reps à chaque séance. Objectif : +1 rep sur au moins une série. Si 2 sessions consécutives sans progression → baisser la charge ou tempo 3 s en descente. Ne pas changer de programme.</li>
+    <li><strong>Lordose + ventre</strong> : la lordose bascule le bassin en avant et projette le ventre mécaniquement. Deadlift, Front Squat, Hollow body et Dead bug corrigent cela. Hip flexor stretch + relevés de hanche le matin : déjà en place ✓</li>
+    <li><strong>Durée minimale</strong> : tenir 6 semaines avant d'évaluer. Les changements visuels apparaissent semaines 4–8, pas avant.</li>
+  </ul>
+</div>
+ 
+<!-- ─── JOURNAL ─── -->
+<h2>Journal de séance &amp; suivi des reps</h2>
+ 
+<div class="panel">
+  <div class="panel-head" onclick="togglePanel('journal')">
+    <h3>📝 Enregistrer une séance</h3>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="panel-body" id="journal">
+    <div class="sess-selector">
+      <button class="sess-btn" id="btn-a" onclick="selectSess('A')">Session A — Upper</button>
+      <button class="sess-btn" id="btn-b" onclick="selectSess('B')">Session B — Lower</button>
+      <button class="sess-btn" id="btn-c" onclick="selectSess('C')">Session C — Q&amp;D</button>
+    </div>
+    <div class="date-row">
+      <label>Date :</label>
+      <input type="date" id="sessDate">
+    </div>
+    <div id="exoFields"></div>
+    <div class="notes-row">
+      <label>Notes libres (ressenti, fatigue, jeûne, contexte) :</label>
+      <textarea id="sessNotes" placeholder="Ex : Jeûne 18h, fatigue modérée, reps propres sur C&P mais KB Row difficile côté gauche..."></textarea>
+    </div>
+    <div class="journal-actions">
+      <button class="btn-save" onclick="saveSession()">💾 Sauvegarder</button>
+      <button class="btn-email" onclick="sendEmail()">📧 Envoyer le rapport par mail</button>
+      <button class="btn-clear" onclick="clearForm()">✕ Effacer</button>
+      <span class="save-toast" id="toast">✓ Séance sauvegardée !</span>
+    </div>
+  </div>
+</div>
+ 
+<!-- ─── HISTORY ─── -->
+<div class="panel" style="margin-top:10px">
+  <div class="hist-panel-head" onclick="togglePanel('histBody')">
+    <h3>📊 Historique &amp; progression</h3>
+    <span style="font-size:11px;color:#888">▼</span>
+  </div>
+  <div class="hist-body" id="histBody">
+    <div id="histContent"><span class="hist-empty">Aucune séance enregistrée pour le moment.</span></div>
+    <div style="margin-top:14px">
+      <button class="btn-danger" onclick="if(confirm('Effacer tout l\'historique ?')) clearHist()">🗑 Effacer tout l'historique</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- NUTRITION -->
+<h2>Nutrition &amp; supplémentation</h2>
+<div class="strat-grid" style="grid-template-columns: repeat(auto-fit, minmax(210px,1fr))">
+ 
+  <div class="strat-card">
+    <strong>🥩 Protéines — cible quotidienne</strong>
+    <strong style="color:#c0392b;font-size:13px;display:block;margin:4px 0">130–140 g/jour</strong>
+    84 kg × 1,6 g/kg = 134 g · Minimum validé pour l'hypertrophie (ISSN 2017).<br>
+    30–40 g minimum par repas pour déclencher la MPS (leucine ≥ 2–3 g par repas).
+  </div>
+ 
+  <div class="strat-card">
+    <strong>🍳 Plan repas 16/8 (fenêtre 12h–20h)</strong>
+    <em style="color:#888;font-size:11px">2 repas suffisants</em><br>
+    <strong>Repas 1 (12h) :</strong> 4 œufs + 150 g poulet/thon + légumes → ~55–60 g protéines<br>
+    <strong>Repas 2 (19h) :</strong> 200 g viande/poisson + 30 g egg protein → ~55–65 g protéines<br>
+    <em style="font-size:11px;color:#888">OMAD : viser 100 g min dans le repas unique. Rendement sous-optimal mais acceptable occasionnellement.</em>
+  </div>
+ 
+  <div class="strat-card">
+    <strong>🥚 Sources protéiques recommandées</strong>
+    <strong style="color:#2D3561">Egg protein (Nutrimuscle)</strong> : profil AA complet, haute leucine, excellente biodisponibilité. Source principale idéale.<br>
+    <strong style="color:#888">Collagène</strong> : utile pour tendons/articulations (tennis), ne compte pas dans les 130 g.<br>
+    <strong style="color:#888">Vegan blend</strong> : pois + riz OK si nécessaire. Soja seul : suffisant.
+  </div>
+ 
+  <div class="strat-card">
+    <strong>💊 Suppléments justifiés</strong>
+    <ul style="margin-left:14px;margin-top:4px;line-height:2">
+      <li><strong>Vitamine D3</strong> — 2000–4000 UI/j (oct–avril) · priorité n°1</li>
+      <li><strong>Magnésium bisglycinate</strong> — ~300 mg/j le soir · pertes sudorales</li>
+      <li><strong>Oméga-3 EPA/DHA</strong> — si &lt; 2–3 portions poissons gras/sem</li>
+      <li><strong>Zinc</strong> — seulement si pas de viande rouge ni huîtres</li>
+    </ul>
+  </div>
+ 
+  <div class="strat-card">
+    <strong>⚙️ Ce qui active la synthèse musculaire (MPS)</strong>
+    La MPS est déclenchée par : tension mécanique (l'entraînement) + leucine via la voie mTORC1.<br>
+    Elle nécessite aussi : ATP (glucides + lipides), zinc, magnésium, vitamines B6/B12, vitamine D, oméga-3.<br>
+    <em style="font-size:11px;color:#888">Un déficit calorique sévère supprime la MPS même avec des protéines suffisantes.</em>
+  </div>
+ 
+  <div class="strat-card">
+    <strong>📊 Tes chiffres (84 kg · 20 % MG)</strong>
+    Masse maigre : ~67 kg · Masse grasse : ~17 kg<br>
+    Cible protéines : <strong>134 g/j</strong> (poids total × 1,6)<br>
+    Calories estimées : 2600–2900 kcal/j · Pas de déficit sévère → MPS non freinée<br>
+    <em style="font-size:11px;color:#888">Recomposition possible : construction muscle + lipolyse en parallèle si protéines atteintes.</em>
+  </div>
+ 
+</div>
+ 
+</div><!-- /tab-new -->
+ 
+ 
+<!-- ══════════════════════════════════════════ -->
+<!--  TAB 2 — ARCHIVE v4.1                     -->
+<!-- ══════════════════════════════════════════ -->
+<div id="tab-old" class="tab-content">
+ 
+<h1 style="margin-top:4px">StrongHybrid 4.1 — Archive</h1>
+<p class="subtitle">Programme de référence · Conservé pour retour éventuel si REPS 2.0 ne convient pas après 6 semaines</p>
+ 
+<h2>Stratégie réelle</h2>
+<div class="strat-grid">
+  <div class="strat-card"><strong>Objectif principal</strong>Pecs épais + épaules pleines + taille fine → 70 % du résultat visuel vient du haut du corps.</div>
+  <div class="strat-card"><strong>Ce dont tu n'as pas besoin</strong>Régime drastique · cardio excessif · volume énorme · salle de sport.</div>
+  <div class="strat-card"><strong>Ce dont tu as besoin</strong>Recomposition intelligente · priorité haut du corps · gainage · protéines 100–120 g/j.</div>
+  <div class="strat-card"><strong>Tennis = 4ᵉ séance</strong>Cardio / coordination / explosivité. Ne pas doubler avec S1 la veille.</div>
+  <div class="strat-card"><strong>Hormones &amp; jeûne</strong>JI 16/8 favorable à la GH et lipolyse viscérale. Éviter 5×5 après 20 h de jeûne (double pic cortisol).</div>
+  <div class="strat-card"><strong>Récupération</strong>Jamais à l'échec sauf V3 (dernier tour). Finir plus calme qu'en arrivant = bon signe.</div>
+</div>
+ 
+<h2>Objectifs hiérarchisés</h2>
+<div class="obj-grid">
+  <div class="obj-card"><span class="obj-num">1</span><span class="obj-dot" style="background:#6abf55"></span>Perdre la graisse viscérale &amp; adipeuse abdominale</div>
+  <div class="obj-card"><span class="obj-num">2</span><span class="obj-dot" style="background:#6abf55"></span>Atteindre ~15 % de masse grasse</div>
+  <div class="obj-card"><span class="obj-num">3</span><span class="obj-dot" style="background:#f0a500"></span>Augmenter naturellement testostérone &amp; GH</div>
+  <div class="obj-card"><span class="obj-num">4</span><span class="obj-dot" style="background:#ec4899"></span>Libido &amp; stamina</div>
+  <div class="obj-card"><span class="obj-num">5</span><span class="obj-dot" style="background:#a78bfa"></span>Épaules · pectoraux · abdos · cuisses</div>
+  <div class="obj-card"><span class="obj-num">6</span><span class="obj-dot" style="background:#f97316"></span>Puissance explosive tennis</div>
+  <div class="obj-card"><span class="obj-num">7</span><span class="obj-dot" style="background:#94a3b8"></span>Force fonctionnelle &amp; fondamentale</div>
+  <div class="obj-card"><span class="obj-num">8</span><span class="obj-dot" style="background:#14b8a6"></span>Corriger lordose &amp; compensations posturales des hanches</div>
+  <div class="obj-card"><span class="obj-num">9</span><span class="obj-dot" style="background:#ccc"></span>Simplicité : pas de salle, matériel minimal</div>
+</div>
+ 
+<h2>Séances — filtre par objectif</h2>
+<div class="filter-bar" id="fo">
+  <span class="tag active" data-filter="all" data-tbody="tbo">Toutes</span>
+  <span class="tag" data-filter="graisse" data-tbody="tbo">Graisse ventre</span>
+  <span class="tag" data-filter="masse" data-tbody="tbo">Masse / densité</span>
+  <span class="tag" data-filter="testo" data-tbody="tbo">Testo</span>
+  <span class="tag" data-filter="gh" data-tbody="tbo">GH</span>
+  <span class="tag" data-filter="libido" data-tbody="tbo">Libido / stamina</span>
+  <span class="tag" data-filter="tennis" data-tbody="tbo">Tennis / explosivité</span>
+  <span class="tag" data-filter="force" data-tbody="tbo">Force</span>
+  <span class="tag" data-filter="posture" data-tbody="tbo">Posture</span>
+</div>
+ 
+<div class="table-wrap">
+<table>
+  <thead><tr>
+    <th style="width:10%">ID</th>
+    <th style="width:10%">Format</th>
+    <th style="width:13%">Structure</th>
+    <th style="width:6%">Durée</th>
+    <th style="width:30%">Exercices</th>
+    <th style="width:31%">Objectifs ciblés</th>
+  </tr></thead>
+  <tbody id="tbo">
+ 
+    <tr data-tags="testo masse force posture graisse" class="bg-purple">
+      <td><div class="sid">S1</div><div class="sname">Masse / Testo / Densité</div></td>
+      <td><span class="sfmt">5×5+<br>Repos 90 s</span></td>
+      <td><span class="sfmt">5 tours · 5 reps lourdes</span></td>
+      <td class="sdur">~20 min</td>
+      <td class="exo">
+        • Clean &amp; Press 20 kg / bras — 5 reps<br>
+        • Double KB Front Squat 36 kg — 5 reps<br>
+        • Pompes élastiques — 8–12 reps<br>
+        <span style="font-size:11px;color:#888">Repos 90 sec entre tours · jamais à l'échec</span>
+      </td>
+      <td>
+        <span class="badge b-testo2">Testo ↑↑</span><span class="badge b-masse">Masse dense</span>
+        <span class="badge b-masse">Pecs + épaules</span><span class="badge b-force">Force fondamentale</span>
+        <span class="badge b-posture">Lordose ↓</span><span class="badge b-graisse">Combustion adipeuse</span>
+      </td>
+    </tr>
+ 
+    <tr data-tags="graisse gh testo tennis" class="bg-blue">
+      <td><div class="sid">S2</div><div class="sname">Explosivité / Sèche / GH</div></td>
+      <td><span class="sfmt">EMOM 12 min</span></td>
+      <td><span class="sfmt">Min impaire : swings<br>Min paire : pompes</span></td>
+      <td class="sdur">~12 min</td>
+      <td class="exo">
+        • Min impaire → 8 swings double KB (36 kg)<br>
+        • Min paire → 6 pompes explosives ou élastiques<br>
+        <span style="font-size:11px;color:#888">Régularité &gt; intensité</span>
+      </td>
+      <td>
+        <span class="badge b-graisse">Graisse viscérale</span><span class="badge b-gh2">GH ↑↑</span>
+        <span class="badge b-testo1">Testo ↑</span><span class="badge b-tennis">Tennis / explosivité</span>
+        <span class="badge b-tennis">Cardio intelligent</span>
+      </td>
+    </tr>
+ 
+    <tr data-tags="masse libido posture graisse force" class="bg-orange">
+      <td><div class="sid">S3</div><div class="sname">Chest Builder — Physique Cible</div></td>
+      <td><span class="sfmt">4 tours · lentement<br>Repos 60–90 s</span></td>
+      <td><span class="sfmt">C&amp;P + Pompes<br>+ Bench + Deadlift + FW</span></td>
+      <td class="sdur">~20 min</td>
+      <td class="exo">
+        • 6 reps Clean &amp; Press 20 kg / bras<br>
+        • 6 pompes élastiques vert<br>
+        • 6 bench press 20 kg / bras (stop 1 s en bas)<br>
+        • 6 Deadlift 36 kg + élastique rouge<br>
+        • 30–40 s Farmer Walk<br>
+        <span style="font-size:11px;color:#888">À faire lentement · 16 kg si technique flanche</span>
+      </td>
+      <td>
+        <span class="badge b-masse">Pecs épais</span><span class="badge b-masse">Épaules</span>
+        <span class="badge b-posture">Core / ventre plat</span><span class="badge b-libido">Libido / stamina</span>
+        <span class="badge b-force">Force fonctionnelle</span><span class="badge b-graisse">Combustion adipeuse</span>
+      </td>
+    </tr>
+ 
+    <tr data-tags="masse libido posture" class="bg-teal">
+      <td><div class="sid">V1</div><div class="sname">Pec Ultra Volumineux</div></td>
+      <td><span class="sfmt">3 blocs<br>Zéro échec</span></td>
+      <td><span class="sfmt">Activation → Volume → Finisher</span></td>
+      <td class="sdur">~15 min</td>
+      <td class="exo">
+        <span class="bloc" style="margin-top:0">Bloc 1 — Activation (2 séries)</span>
+        • 4 Clean &amp; Press / bras 16 kg · 4 pompes lentes<br>
+        <span class="bloc">Bloc 2 — Volume (4 tours)</span>
+        • 10–12 pompes profondes sur KB<br>
+        • 6 bench press sur banc / bras 16 kg<br>
+        • Pompes élastiques vert — max reps · Farmer Walk 30 s<br>
+        <span class="bloc">Bloc 3 — Finisher (1 série)</span>
+        • Pompes max reps + 50 % reps
+      </td>
+      <td>
+        <span class="badge b-masse">Pecs massifs</span><span class="badge b-masse">Volume haut corps</span>
+        <span class="badge b-libido">Vascularisation</span><span class="badge b-posture">Posture masculine</span>
+      </td>
+    </tr>
+ 
+    <tr data-tags="testo libido masse force graisse" class="bg-teal">
+      <td><div class="sid">V2</div><div class="sname">Libido / Hormonale</div></td>
+      <td><span class="sfmt">5 tours<br>CNS faible</span></td>
+      <td><span class="sfmt">Clean + DFS<br>+ Pompes + Farmer</span></td>
+      <td class="sdur">~15 min</td>
+      <td class="exo">
+        • 3 reps Clean + DFS (36 kg)<br>
+        • 5 pompes élastiques<br>
+        • 30 s Farmer Walk asymétrique<br>
+        <span style="font-size:11px;color:#888">Zone VERTE ≤ 2h avant soirée · finir ancré et calme = bon signe</span>
+      </td>
+      <td>
+        <span class="badge b-testo2">Testo ↑↑</span><span class="badge b-libido">Libido / stamina</span>
+        <span class="badge b-masse">Densité musculaire</span><span class="badge b-force">Force fonctionnelle</span>
+        <span class="badge b-graisse">Combustion adipeuse</span>
+      </td>
+    </tr>
+ 
+    <tr data-tags="testo masse force graisse posture" class="bg-purple">
+      <td><div class="sid">V3</div><div class="sname">DFS Brutal</div></td>
+      <td><span class="sfmt">5 tours<br>Dernier tour : échec</span></td>
+      <td><span class="sfmt">Double Front Squat<br>36 kg</span></td>
+      <td class="sdur">~15 min</td>
+      <td class="exo">
+        • Double Front Squat (36 kg) × 6–7 reps<br>
+        • Dernier tour : reps maximum<br>
+        <span style="font-size:11px;color:#888">Fatigue hanche + cortisol élevé · pas de séance lactique le lendemain</span>
+      </td>
+      <td>
+        <span class="badge b-testo2">Testo ↑↑</span><span class="badge b-masse">Cuisses / fessiers</span>
+        <span class="badge b-force">Force lourde</span><span class="badge b-graisse">Combustion adipeuse</span>
+        <span class="badge b-posture">Core / ventre plat</span>
+      </td>
+    </tr>
+ 
+    <tr class="just-row" data-tags="all">
+      <td colspan="2"><div class="just-title">Just to Show Up</div><div style="font-size:11px;color:#888;margin-top:2px;">Jours OFF uniquement</div></td>
+      <td><span class="sfmt">2 mouvements<br>max 15 reps · jamais à l'échec</span></td>
+      <td class="sdur">5–8 min</td>
+      <td class="exo">• DFS + Farmer Walk<br>• Clean léger + Pompes</td>
+      <td class="exo" style="color:#666;font-size:12px;">Signal de maintien uniquement.<br>Ne pas transformer en vraie séance.</td>
+    </tr>
+ 
+    <tr class="opt-row" data-tags="all">
+      <td colspan="2"><div class="just-title" style="color:#999">Optionnel — Pas chez moi</div><div style="font-size:11px;color:#bbb;margin-top:2px;">Pec Massif · sans matériel</div></td>
+      <td><span class="sfmt" style="color:#aaa">5 séries · toutes les 2 min</span></td>
+      <td class="sdur" style="color:#bbb">~8 min</td>
+      <td class="exo" style="color:#888">• 15–20 pompes densité<br><span style="font-size:11px;color:#bbb;font-style:italic">Partout, sans matériel</span></td>
+      <td><span class="badge b-masse" style="opacity:0.65">Pecs volumineux</span><span class="badge b-masse" style="opacity:0.65">Densité haut corps</span></td>
+    </tr>
+ 
+  </tbody>
+</table>
+</div>
+ 
+<div class="note">
+  <strong>Règles clés :</strong>
+  Ne pas enchaîner V1 ou S3 → S1 en moins de 24h (push sur push — chaîne antérieure incomplète).<br>
+  V3 (DFS Brutal) → pas de séance lactique le lendemain.<br>
+  V2 = CNS faible → stimule sans épuiser, idéal en soirée.<br>
+  S1 / V3 = fatigue hanche + cortisol élevé → éviter ≤ 2h avant une soirée.<br>
+  5×5 après 20h+ de jeûne = double pic cortisol → compromis, pas une optimisation.<br>
+  Respiration nasale sur tous les exercices → lipolyse + récupération SNC.
+</div>
+ 
+<h2>Indicateurs de progression</h2>
+<div class="indic-grid">
+  <div class="indic-card"><div class="indic-freq">Hebdomadaire</div><div class="indic-text">Clean &amp; Press — max reps propres / bras (à froid)</div></div>
+  <div class="indic-card"><div class="indic-freq">Hebdomadaire</div><div class="indic-text">Score libido / énergie / motivation (0–10)</div></div>
+  <div class="indic-card"><div class="indic-freq">Mensuel</div><div class="indic-text">Farmer Walk lourd — durée tenue propre</div></div>
+  <div class="indic-card"><div class="indic-freq">Mensuel</div><div class="indic-text">Snatch 16 kg — reps en 5 min</div></div>
+  <div class="indic-card"><div class="indic-freq">Mensuel</div><div class="indic-text">Tour de taille à jeun (cm)</div></div>
+  <div class="indic-card"><div class="indic-freq">Règle</div><div class="indic-text">3 indicateurs sur 5 en progression = tu avances.</div></div>
+</div>
+ 
 <div class="legend">
-  <div class="leg-item"><div class="leg-dot" style="background:#EBF4FF"></div>Cardio / GH — S1, S3d</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#F0EEFF"></div>Masse / Testo — S2, S3c</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#E8F8F2"></div>Mixte / Récup — S3a, S3b, S3e</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#F0EEFF"></div>Masse / Testo — S1, V3</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#EBF4FF"></div>Explosivité / GH — S2</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#FFF4EC"></div>Physique cible — S3</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#E8F8F2"></div>Variantes — V1, V2</div>
   <div class="leg-item"><div class="leg-dot" style="background:#F7F5EE"></div>Just to show up</div>
 </div>
-
+ 
+</div><!-- /tab-old -->
+ 
+ 
 <script>
-  document.querySelectorAll('.tag').forEach(tag => {
-    tag.addEventListener('click', () => {
-      document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-      tag.classList.add('active');
-      const f = tag.dataset.filter;
-      document.querySelectorAll('#tbody tr').forEach(row => {
-        if (f === 'all' || row.dataset.tags.includes(f)) {
-          row.classList.remove('hidden');
-        } else {
-          row.classList.add('hidden');
-        }
-      });
+// ── TAB SWITCH ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+ 
+// ── FILTERS ──
+document.querySelectorAll('.filter-bar .tag').forEach(tag => {
+  tag.addEventListener('click', () => {
+    const bar = tag.closest('.filter-bar');
+    bar.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+    tag.classList.add('active');
+    const f = tag.dataset.filter;
+    const tbId = tag.dataset.tbody;
+    document.querySelectorAll('#' + tbId + ' tr').forEach(row => {
+      const show = f === 'all' || (row.dataset.tags && row.dataset.tags.includes(f));
+      row.classList.toggle('hidden', !show);
     });
   });
+});
+ 
+// ── PANEL TOGGLE ──
+function togglePanel(id) {
+  const body = document.getElementById(id);
+  const head = body.previousElementSibling;
+  body.classList.toggle('open');
+  if (head && head.querySelector('.arrow')) head.querySelector('.arrow').style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+  if (id === 'histBody') renderHistory();
+}
+ 
+// ── SESSION DEFINITIONS ──
+const SESS = {
+  A: { label: 'A — Upper Body Push/Pull', exercises: [
+    { name: 'Clean & Press — bras Gauche', sets: 5 },
+    { name: 'Clean & Press — bras Droit',  sets: 5 },
+    { name: 'KB Row — bras Gauche',        sets: 4 },
+    { name: 'KB Row — bras Droit',         sets: 4 },
+    { name: 'Bench Press KB — bras Gauche', sets: 4 },
+    { name: 'Bench Press KB — bras Droit',  sets: 4 },
+  ]},
+  B: { label: 'B — Lower Body Hip Hinge & Squat', exercises: [
+    { name: 'Swing double KB',       sets: 5 },
+    { name: 'Deadlift + élastique',  sets: 4 },
+    { name: 'Double Front Squat',    sets: 4 },
+    { name: 'Core (planche / hollow)', sets: 3 },
+  ]},
+  C: { label: 'C — Quick & Dead', exercises: [
+    { name: 'Rounds complétés (sur 10)', sets: 1 },
+    { name: 'Note qualité / ressenti',   sets: 1 },
+  ]}
+};
+ 
+let curSess = null;
+ 
+function selectSess(type) {
+  curSess = type;
+  ['a','b','c'].forEach(t => document.getElementById('btn-' + t).className = 'sess-btn');
+  document.getElementById('btn-' + type.toLowerCase()).classList.add('sel-' + type.toLowerCase());
+  renderExoFields(type);
+}
+ 
+function renderExoFields(type) {
+  const container = document.getElementById('exoFields');
+  const sess = SESS[type];
+  const last = getLastOfType(type);
+  let html = '';
+  sess.exercises.forEach((ex, ei) => {
+    const lastEx = last ? last.exercises.find(e => e.name === ex.name) : null;
+    html += `<div class="exo-track">
+      <div class="exo-track-name">${ex.name}</div>
+      <div class="sets-row">`;
+    for (let s = 0; s < ex.sets; s++) {
+      html += `<div class="set-grp"><label>${type === 'C' ? 'Val' : 'S' + (s+1)}</label>
+        <input type="number" id="f_${ei}_${s}" min="0" max="99" placeholder="—" oninput="updateProg(${ei})">
+      </div>`;
+    }
+    if (lastEx && lastEx.reps.some(r => r !== '')) {
+      const tot = lastEx.reps.reduce((a,b) => a + (parseInt(b)||0), 0);
+      html += `<span class="prev-info">Dernière fois&nbsp;: ${lastEx.reps.filter(r=>r!=='').join(' / ')} <strong>(${tot})</strong></span>`;
+    }
+    html += `<span class="prog-pill" id="pp_${ei}" style="display:none"></span>`;
+    html += `</div></div>`;
+  });
+  container.innerHTML = html;
+}
+ 
+function updateProg(ei) {
+  if (!curSess) return;
+  const sess = SESS[curSess];
+  const ex = sess.exercises[ei];
+  const last = getLastOfType(curSess);
+  if (!last) return;
+  const lastEx = last.exercises.find(e => e.name === ex.name);
+  if (!lastEx) return;
+  let curr = 0;
+  for (let s = 0; s < ex.sets; s++) curr += parseInt(document.getElementById(`f_${ei}_${s}`)?.value) || 0;
+  const prev = lastEx.reps.reduce((a,b) => a + (parseInt(b)||0), 0);
+  const pill = document.getElementById(`pp_${ei}`);
+  if (curr === 0) { pill.style.display = 'none'; return; }
+  pill.style.display = 'inline-block';
+  const d = curr - prev;
+  if (d > 0)      { pill.className = 'prog-pill prog-up';   pill.textContent = `+${d} ↑`; }
+  else if (d < 0) { pill.className = 'prog-pill prog-down'; pill.textContent = `${d} ↓`; }
+  else            { pill.className = 'prog-pill prog-same'; pill.textContent = `= stable`; }
+}
+ 
+function collectData() {
+  if (!curSess) return null;
+  const exercises = SESS[curSess].exercises.map((ex, ei) => ({
+    name: ex.name,
+    reps: Array.from({length: ex.sets}, (_, s) => document.getElementById(`f_${ei}_${s}`)?.value || '')
+  }));
+  return {
+    id: Date.now(),
+    date: document.getElementById('sessDate').value || new Date().toISOString().split('T')[0],
+    type: curSess,
+    label: SESS[curSess].label,
+    exercises,
+    notes: document.getElementById('sessNotes').value
+  };
+}
+ 
+function saveSession() {
+  const data = collectData();
+  if (!data) { alert('Sélectionne une session d\'abord (A, B ou C).'); return; }
+  const all = JSON.parse(localStorage.getItem('sh2_sessions') || '[]');
+  all.push(data);
+  localStorage.setItem('sh2_sessions', JSON.stringify(all));
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+  renderHistory();
+}
+ 
+function getLastOfType(type) {
+  const all = JSON.parse(localStorage.getItem('sh2_sessions') || '[]');
+  const filtered = all.filter(s => s.type === type);
+  return filtered.length ? filtered[filtered.length - 1] : null;
+}
+ 
+function sendEmail() {
+  const data = collectData();
+  if (!data) { alert('Sélectionne une session d\'abord.'); return; }
+  const last = getLastOfType(data.type);
+  const all = JSON.parse(localStorage.getItem('sh2_sessions') || '[]');
+  const history = all.filter(s => s.type === data.type);
+ 
+  let b = `RAPPORT — StrongHybrid REPS 2.0\n${'='.repeat(44)}\n`;
+  b += `Session : ${data.label}\nDate    : ${data.date}\n\n`;
+  b += `SÉRIES :\n${'─'.repeat(40)}\n`;
+  data.exercises.forEach(ex => {
+    const r = ex.reps.filter(v => v !== '');
+    if (!r.length) return;
+    const tot = r.reduce((a,b) => a + (parseInt(b)||0), 0);
+    b += `\n${ex.name}\n  Reps : ${r.join(' | ')}\n  Total: ${tot}\n`;
+    if (last) {
+      const le = last.exercises.find(e => e.name === ex.name);
+      if (le) {
+        const pt = le.reps.reduce((a,v) => a + (parseInt(v)||0), 0);
+        const d = tot - pt;
+        b += `  vs J-1 (${last.date}) : ${pt} → ${d >= 0 ? '+' : ''}${d} ${d > 0 ? '↑' : d < 0 ? '↓' : '='}\n`;
+      }
+    }
+  });
+  if (data.notes) b += `\nNOTES :\n${'─'.repeat(40)}\n${data.notes}\n`;
+  if (history.length > 1) {
+    b += `\nHISTORIQUE SESSION ${data.type} (5 dernières) :\n${'─'.repeat(40)}\n`;
+    history.slice(-5).forEach(s => {
+      b += `\n[${s.date}]\n`;
+      s.exercises.forEach(ex => {
+        const r = ex.reps.filter(v => v !== '');
+        if (!r.length) return;
+        b += `  ${ex.name} : ${r.join('/')} = ${r.reduce((a,v) => a+(parseInt(v)||0), 0)}\n`;
+      });
+    });
+  }
+  b += `\n${'='.repeat(44)}\nStrongHybrid REPS 2.0`;
+  const sub = encodeURIComponent(`[StrongHybrid] Session ${data.type} — ${data.date}`);
+  window.location.href = `mailto:?subject=${sub}&body=${encodeURIComponent(b)}`;
+}
+ 
+function clearForm() {
+  curSess = null;
+  ['a','b','c'].forEach(t => document.getElementById('btn-' + t).className = 'sess-btn');
+  document.getElementById('exoFields').innerHTML = '';
+  document.getElementById('sessNotes').value = '';
+  document.getElementById('sessDate').value = new Date().toISOString().split('T')[0];
+}
+ 
+function renderHistory() {
+  const all = JSON.parse(localStorage.getItem('sh2_sessions') || '[]');
+  const el = document.getElementById('histContent');
+  if (!all.length) { el.innerHTML = '<span class="hist-empty">Aucune séance enregistrée pour le moment.</span>'; return; }
+  const tc = { A: 'ht-a', B: 'ht-b', C: 'ht-c' };
+  let html = '';
+  [...all].reverse().slice(0, 12).forEach((s, i) => {
+    const ri = all.length - 1 - i;
+    let detail = '';
+    s.exercises.forEach(ex => {
+      const r = ex.reps.filter(v => v !== '');
+      if (!r.length) return;
+      detail += `${ex.name.split('—')[0].trim()} : ${r.join('/')} (${r.reduce((a,v)=>a+(parseInt(v)||0),0)})<br>`;
+    });
+    if (s.notes) detail += `<em>${s.notes}</em><br>`;
+    html += `<div class="hist-entry">
+      <div class="hist-entry-head">
+        <span class="hist-type ${tc[s.type]||''}">${s.type}</span>
+        <span class="hist-date">${s.date}</span>
+        <button class="btn-del" onclick="delSession(${ri})" title="Supprimer">✕</button>
+      </div>
+      <div class="hist-detail">${detail || '<em>Pas de données de reps</em>'}</div>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+ 
+function delSession(idx) {
+  const all = JSON.parse(localStorage.getItem('sh2_sessions') || '[]');
+  all.splice(idx, 1);
+  localStorage.setItem('sh2_sessions', JSON.stringify(all));
+  renderHistory();
+}
+ 
+function clearHist() {
+  localStorage.removeItem('sh2_sessions');
+  renderHistory();
+}
+ 
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('sessDate').value = new Date().toISOString().split('T')[0];
+  renderHistory();
+});
 </script>
-
 </body>
 </html>
+ 
